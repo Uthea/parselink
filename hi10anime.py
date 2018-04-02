@@ -2,6 +2,7 @@ import requests
 import re
 import os
 from bs4 import BeautifulSoup
+from pathlib import Path
 
 
 url = 'https://hi10anime.com/wp-login.php'  # hi10anime login page
@@ -25,17 +26,23 @@ def loginToWeb(payload):
 
 def parseLink():
     """ parse download links using from file and find the correct download links using regex"""
+
+    check = Path("download.txt")
+    if check.exists():
+        os.remove("download.txt")
+
     with open('file.html', 'br') as file:
         soup = BeautifulSoup(file, 'lxml')
 
         for line in soup.find_all('a'):
             links = str(line.get('href'))
-            pattern = re.compile(r"http://bc.vc.+(hi10anime.+\.mkv)") #change regex query as suited
+            pattern = re.compile(r"http://bc.vc.+(hi10anime.+\.mkv)")  # change regex query as desired
 
             if re.findall(pattern, links):
-                print('http://' + re.findall(pattern, links)[0])
+                print('http://' + re.findall(pattern, links)[0], file=open("download.txt", 'a'))
 
     os.remove('file.html')
+    print("writing link to download.txt sucess")
 
 
 loginToWeb(payload)
