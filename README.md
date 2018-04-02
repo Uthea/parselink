@@ -1,0 +1,1 @@
+parse download link from hi10anime.com
