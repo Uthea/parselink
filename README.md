@@ -1,1 +1,1 @@
-parse download link from hi10anime.com
+parse download link for hi10anime.com
